@@ -25,9 +25,10 @@ public class MatrixTests {
 
     @Test
     void constructTest2() {
-        int[][] val = null;
+        int[][] val = new int[3][7];
         Matrix m = new Matrix(val);
         assertEquals(m.getMatrix(), val);
+        assertInstanceOf(Matrix.class, m);
     }
 
     @Test
@@ -91,9 +92,12 @@ public class MatrixTests {
     @Test
     void multiplyTest2()
     {
-        int [][] val = new int[1][1];
+        int [][] val = new int[2][1];
         val[0][0] = 0;
-        Matrix m = new Matrix(null);
-        assertTrue(m.multiply(m).equals(m));
+        int [][] val1 = new int[2][3];
+        val[0][1] = 0;
+        Matrix m = new Matrix(val);
+        Matrix m1 = new Matrix(val1);
+        assertTrue(m.multiply(m1).equals(m1.multiply(m)));
     }
 }

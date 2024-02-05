@@ -32,11 +32,17 @@ public class LinkedList<T extends Comparable<T>> {
             first = new Element(elt);
             return;
         }
+        Element newElt = new Element(elt);
         Element i = first;
-        for (; i._next != null && (elt==null || elt.compareTo(i._value) < 0); i = i._next) {
+        if (elt.compareTo(first._value) < 0) {
+            newElt._next = first;
+            first = newElt;
+            return;
+        }
+        for (; i._next != null && (elt==null || elt.compareTo(i._value) > 0); i = i._next) {
             continue;
         }
-        Element newElt = new Element(elt);
+
         newElt._next = i._next;
         i._next = newElt;
     }
@@ -69,6 +75,11 @@ public class LinkedList<T extends Comparable<T>> {
         Element k = first;
         if (k == null)
             return null;
+        if (k._value == elt) {
+            T tmp = first._value;
+            first = first._next;
+            return tmp;
+        }
         for (; k._next != null && elt.compareTo(k._next._value) != 0; k = k._next)
         {
             continue;

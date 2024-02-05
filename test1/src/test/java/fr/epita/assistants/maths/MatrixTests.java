@@ -29,13 +29,6 @@ public class MatrixTests {
         assertEquals(m.getMatrix(), val);
     }
 
-    void constructTest6() {
-        int[][] val = null;
-        Matrix m = new Matrix(val);
-        assertEquals(m.getMatrix(), val);
-    }
-
-
     @Test
     void constructTest3() {
         int[][] val = new int[0][0];
@@ -61,6 +54,13 @@ public class MatrixTests {
         assertNotEquals(m,m2);
         assertNotSame(m,m2);
     }
+    @Test
+    void constructTest6() {
+        Matrix m = new Matrix(null);
+        assertEquals(m.getMatrix(), null);
+        assertThrows(NullPointerException.class, () -> m.getMatrix());
+    }
+
 
     @Test
     void equalTest1() {
@@ -150,13 +150,15 @@ public class MatrixTests {
     {
         int [][] val = new int[5][5];
         val[0][0] = 0;
+        val[3][3] = 2;
         int [][] val1 = new int[5][5];
-        val[0][1] = 0;
+        val1[0][1] = 0;
+        val1[3][3] = 2;
+
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(val1);
         assertFalse(m.multiply(m1).equals(m1.multiply(m)));
     }
-
 
 
     @Test
@@ -167,5 +169,17 @@ public class MatrixTests {
         Matrix m = new Matrix(val);
         Matrix m1 = null;
         assertTrue(m.multiply(m1).equals(m1.multiply(m)));
+    }
+
+    @Test
+    void multiplyTest7()
+    {
+        int [][] val = new int[2][1];
+        val[0][0] = 0;
+        int [][] val1 = new int[1][2];
+        val1[0][0] = 0;
+        Matrix m = new Matrix(val);
+        Matrix m1 = new Matrix(val1);
+        assertThrows(IndexOutOfBoundsException.class, () -> m.multiply(m1));
     }
 }

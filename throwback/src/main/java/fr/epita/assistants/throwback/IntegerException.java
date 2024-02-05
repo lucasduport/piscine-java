@@ -1,8 +1,8 @@
 package fr.epita.assistants.throwback;
 
-public class IntegerException extends Exception{
-    public IntegerException(String message, int nb)
+public abstract class IntegerException extends Exception{
+    public IntegerException(String message)
     {
-        super("IntegerException: " + message + nb);
+        super("IntegerException: " + message);
     }
 }

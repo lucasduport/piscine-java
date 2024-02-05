@@ -6,23 +6,16 @@ public class Pitcher {
             PositiveIntegerException, NegativeIntegerException,
             UnknownException
     {
-        try
-        {
-            int a = Integer.parseInt(message);
-            if ( a >= 0)
-                throw new PositiveIntegerException(a);
-            else
-                throw new NegativeIntegerException(a);
-        }
-        catch (NumberFormatException e
-        )
-        {
-            if (!message.matches("[A-Za-z ,.']*"))
-                throw new UnknownException();
+
+            if (message.matches("-[0-9]*"))
+                throw new NegativeIntegerException(message);
+            else if (message.matches("[0-9]*"))
+                throw new PositiveIntegerException(message);
+            else if (!message.matches("[A-Za-z ,.']*"))
+                throw new UnknownException(message);
             else if (message.length() >= 100)
                 throw new LongStringException(message);
             else
                 throw new ShortStringException(message);
-        }
     }
 }

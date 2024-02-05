@@ -1,8 +1,8 @@
 package fr.epita.assistants.throwback;
 
 public class UnknownException extends Exception {
-    public UnknownException()
+    public UnknownException(String message)
     {
-        super("UnknownException");
+        super("UnknownException: " + message);
     }
 }

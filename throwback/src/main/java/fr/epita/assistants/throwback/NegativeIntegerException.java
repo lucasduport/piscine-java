@@ -2,8 +2,8 @@ package fr.epita.assistants.throwback;
 
 public class NegativeIntegerException extends IntegerException{
 
-    public NegativeIntegerException(int nb)
+    public NegativeIntegerException(String msg)
     {
-        super("NegativeIntegerException: ", nb);
+        super("NegativeIntegerException: " + msg);
     }
 }

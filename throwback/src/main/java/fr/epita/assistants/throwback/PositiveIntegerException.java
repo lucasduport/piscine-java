@@ -1,8 +1,8 @@
 package fr.epita.assistants.throwback;
 
 public class PositiveIntegerException extends IntegerException {
-    public PositiveIntegerException(int nb)
+    public PositiveIntegerException(String msg)
     {
-        super("PositiveIntegerException: ", nb);
+        super("PositiveIntegerException: " + msg);
     }
 }

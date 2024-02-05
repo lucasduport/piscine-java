@@ -1,5 +1,7 @@
 package fr.epita.assistants.myebook;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 public class EBookReader implements IPaginated, IUpdatable, IReadable{
     private double version;
     private EBook ebook;
@@ -10,22 +12,25 @@ public class EBookReader implements IPaginated, IUpdatable, IReadable{
     public void openEbook(EBook _ebook)
     {
         ebook = _ebook;
-        onPage = 0;
     }
     @Override
     public void openToPage(int page) {
-        if (page < getPageCount())
-            onPage = page;
+        if (ebook != null)
+            ebook.openToPage(page);
     }
 
     @Override
     public int getCurrentPage() {
-        return onPage;
+        if (ebook != null)
+            return ebook.getCurrentPage();
+        return -1;
     }
 
     @Override
     public int getPageCount() {
-       return ebook.pages.size();
+        if (ebook != null)
+            return ebook.pages.size();
+        return -1;
     }
 
     @Override
@@ -35,7 +40,8 @@ public class EBookReader implements IPaginated, IUpdatable, IReadable{
 
     @Override
     public void update(double _version) {
-        version = _version;
+        if (_version > version)
+            version = _version;
     }
 
     @Override

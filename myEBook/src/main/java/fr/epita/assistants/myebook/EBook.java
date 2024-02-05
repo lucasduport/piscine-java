@@ -3,7 +3,7 @@ package fr.epita.assistants.myebook;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class EBook extends Book implements IEditable{
+public final class EBook extends Book implements IEditable, IPaginated{
 
     public String getName() {
         return this.name;

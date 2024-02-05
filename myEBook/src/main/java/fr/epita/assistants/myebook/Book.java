@@ -9,7 +9,7 @@ public sealed class Book implements IReadable, IPaginated
     protected String name;
     protected List<String> pages;
 
-    private int openedOn;
+    protected int openedOn;
 
     public String getName() {
         return name;
@@ -25,7 +25,7 @@ public sealed class Book implements IReadable, IPaginated
 
     @Override
     public void openToPage(int page) {
-        if (page < pages.size())
+        if (page >= 0 && page < pages.size())
             openedOn = page;
     }
 

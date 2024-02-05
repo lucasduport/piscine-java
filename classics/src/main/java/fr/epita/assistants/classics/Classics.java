@@ -1,18 +1,35 @@
 package fr.epita.assistants.classics;
 
+import java.util.Arrays;
+
 public class Classics {
     /**
      * Computes the factorial of n.
-     * @param n the nth value to compute, negative values should return -1
      *
+     * @param n the nth value to compute, negative values should return -1
      * @return the long value of n!
      */
     public static long factorial(int n) {
+        if (n < 0)
+            return -1;
         long i = 1;
         for (int j = 1; j <= n; j++) {
-            i*= j;
+            i *= j;
         }
         return i;
+    }
+
+    private static long tribo(int n, long[] values) {
+        if (n < 0)
+            return -1;
+        if (n == 0)
+            return 0;
+        if (n == 1 || n == 2)
+            return 1;
+        if (values[n] != -1)
+            return values[n];
+        values[n] = tribo(n-1, values) + tribo(n-2,values) + tribo(n-3,values);
+        return values[n];
     }
 
     /**
@@ -25,11 +42,11 @@ public class Classics {
     {
         if (n < 0)
             return -1;
-        if (n == 0)
-            return 0;
-        if (n == 1 || n == 2)
-            return 1;
-        return tribonacci(n-1) + tribonacci(n-2) + tribonacci(n-3);
+        if (n > 2)
+            n--;
+        long[] value = new long[n+1];
+        Arrays.fill(value, -1);
+        return tribo(n,value);
     }
 
     /**
@@ -39,10 +56,26 @@ public class Classics {
      * @return true if the word is a palindrome, false otherwise.
      */
     public static boolean isPalindrome(String word) {
-        for (int i = 0; i < word.length() / 2; i++)
+        if (word == null || word.length() == 0)
+            return true;
+        int i = 0;
+        int j = word.length() - 1;
+        for (; i != j;)
         {
-            if (word.charAt(i) != word.charAt(word.length() - i - 1))
+            if (word.charAt(i) == ' ')
+            {
+                i++;
+                continue;
+            }
+            if (word.charAt(j) == ' ')
+            {
+                j--;
+                continue;
+            }
+            if (word.charAt(i) != word.charAt(j))
                 return false;
+            i++;
+            j--;
         }
         return true;
     }
@@ -55,7 +88,7 @@ public class Classics {
     public static void insertionSort(int[] array)
     {
         for (int i = 1; i < array.length; i++) {
-            for (int k = i; k > 0 && (array[k-1] > array[k]); k++) {
+            for (int k = i; k > 0 && (array[k-1] > array[k]); k--) {
                 var tmp = array[k];
                 array[k] = array[k-1];
                 array[k-1] = tmp;

@@ -9,5 +9,10 @@ public class Main {
         if (Classics.factorial(n) != expected)
             System.err.println("Error factorial("+ n +") " +
                     "-> Actual: " + Classics.factorial(5) + " Expected: " + expected);
+        n = 7;
+        expected = 13;
+        if (Classics.tribonacci(n) != expected)
+            System.err.println("Error factorial("+ n +") " +
+                    "-> Actual: " + Classics.tribonacci(n) + " Expected: " + expected);
     }
 }

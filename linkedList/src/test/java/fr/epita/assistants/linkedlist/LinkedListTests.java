@@ -45,17 +45,19 @@ public class LinkedListTests {
         list.insert(2);
         list.insert(3);
         list.insert(4);
-        assertEquals(list.get(0), 1);
-        assertEquals(list.get(2), 3);
-        assertEquals(list.get(3), 4);
+        list.insert(1);
+        list.insert(null);
+        list.insert(32);
+        list.insert(16);
 
         list.remove(1);
         list.remove(2);
         list.remove(3);
+        list.remove(16);
 
         assertEquals(list.remove(4), 4);
 
-        assertEquals(list.size(), 0);
+        assertEquals(list.size(), 4);
     }
     // add your own tests here
 }

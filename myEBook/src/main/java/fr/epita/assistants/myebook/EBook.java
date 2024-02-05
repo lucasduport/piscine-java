@@ -35,9 +35,11 @@ public final class EBook extends Book implements IEditable, IPaginated{
 
     @Override
     public void deletePage() {
-        this.pages.remove(this.getCurrentPage());
-        if (this.getPageCount()== 0)
+        if (this.getCurrentPage() < this.getPageCount())
+            this.pages.remove(this.getCurrentPage());
+        if (this.getPageCount() == 0)
             this.addPage();
+        return;
     }
 
     public Book print()

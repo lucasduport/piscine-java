@@ -4,44 +4,44 @@ import java.util.ArrayList;
 
 public class GenericSet<T extends Comparable<T>>
 {
-    private ArrayList<T> _base = new ArrayList<T>();
+    private ArrayList<T> base_ = new ArrayList<T>();
     public void insert(T i)
     {
         int j = 0;
-        for (; j < _base.size() && i.compareTo(_base.get(j)) < 0; j++) {
+        for (; j < base_.size() && i.compareTo(base_.get(j)) < 0; j++) {
             continue;
         }
-        _base.add(j,i);
+        base_.add(j,i);
 
     }
     public void remove(T i)
     {
-        _base.remove(i);
+        base_.remove(i);
     }
     public boolean has(T i)
     {
-        return _base.contains(i);
+        return base_.contains(i);
     }
     public boolean isEmpty()
     {
-        return _base.isEmpty();
+        return base_.isEmpty();
     }
     public T min()
     {
-        return _base.get(0);
+        return base_.get(0);
     }
     public T max()
     {
-        return _base.get(_base.size() - 1);
+        return base_.get(base_.size() - 1);
     }
     public int size()
     {
-        return _base.size();
+        return base_.size();
     }
     public static <T extends Comparable<T>> GenericSet<T> intersection(GenericSet<T> a, GenericSet<T> b)
     {
         GenericSet<T> ret = new GenericSet();
-        for (T v: a._base) {
+        for (T v: a.base_) {
             if (b.has(v))
                 ret.insert(v);
 
@@ -52,10 +52,10 @@ public class GenericSet<T extends Comparable<T>>
     public static <T extends Comparable<T>> GenericSet<T>  union(GenericSet<T>  a, GenericSet<T>  b)
     {
         GenericSet<T>  ret = new GenericSet();
-        for (T v: a._base) {
+        for (T v: a.base_) {
             ret.insert(v);
         }
-        for (T v: b._base) {
+        for (T v: b.base_) {
             if (! ret.has(v))
                 ret.insert(v);
         }

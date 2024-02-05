@@ -3,6 +3,7 @@ package fr.epita.assistants.practicelombok;
 import lombok.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @EqualsAndHashCode( of = { "name", "nickname"})
 @ToString( of = {"name", "speed"})

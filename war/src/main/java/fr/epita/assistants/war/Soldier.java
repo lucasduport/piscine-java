@@ -31,7 +31,7 @@ public class Soldier extends Combatant{
     @Override
     public void attack(Vehicle v)
     {
-        System.out.println("I can't fight this");
+        System.out.println("I can't fight this.");
     }
 
     public void printState()

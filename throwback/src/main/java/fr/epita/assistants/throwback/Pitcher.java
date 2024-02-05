@@ -7,7 +7,7 @@ public class Pitcher {
             UnknownException
     {
 
-            if (message.matches("-[0-9]*"))
+            if (message.matches("-[0-9]+"))
                 throw new NegativeIntegerException(message);
             else if (message.matches("[0-9]*"))
                 throw new PositiveIntegerException(message);

@@ -30,7 +30,10 @@ public final class EBook extends Book implements IEditable, IPaginated{
 
     @Override
     public void addPage() {
-        this.pages.add(this.getCurrentPage() + 1, "");
+        if (this.pages.size() == 0)
+            this.pages.add("");
+        else
+            this.pages.add(this.getCurrentPage() + 1, "");
     }
 
     @Override

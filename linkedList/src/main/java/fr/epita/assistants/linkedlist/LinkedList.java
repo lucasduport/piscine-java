@@ -1,14 +1,23 @@
 package fr.epita.assistants.linkedlist;
-
-import java.util.List;
-
+;
 public class LinkedList<T extends Comparable<T>> {
-    private List<T> list;
+    private Element first;
     /**
      * Initializes the list
      **/
+
+    private class Element{
+        public T _value;
+        public Element _next;
+
+        public Element(T value)
+        {
+            _next = null;
+            _value = value;
+        }
+    }
     public LinkedList() {
-        list = new java.util.LinkedList<>();
+        first = null;
     }
 
     /**
@@ -19,22 +28,18 @@ public class LinkedList<T extends Comparable<T>> {
      * @param e Element to be inserted
      **/
     public void insert(T elt) {
-        if (elt == null)
+        Element i = first;
+        for (; i != null && (elt==null || elt.compareTo(i._value) < 0); i = i._next) {
+            continue;
+        }
+        Element newElt = new Element(elt);
+        if (i == null)
+            first = newElt;
+        else
         {
-            list.add(null);
-            return;
+            newElt._next = i._next;
+            i._next = newElt;
         }
-
-        boolean added = false;
-        for (int i = 0; i < list.size(); i++) {
-            if (elt.compareTo(list.get(i)) > 0) {
-                list.add(i, elt);
-                added = true;
-                break;
-            }
-        }
-        if (!added)
-            list.add(elt);
     }
 
     /**
@@ -45,8 +50,14 @@ public class LinkedList<T extends Comparable<T>> {
      * @throws IndexOutOfBoundsException if there is no element at this
      *                                   index.
      **/
-    public T get(int i) {
-        return list.get(i);
+    public T get(int i) throws IndexOutOfBoundsException{
+        int j = 0;
+        Element k = first;
+        for ( ; j < i && k != null; k = k._next)
+            j++;
+        if(j == i)
+            return k._value;
+        throw new IndexOutOfBoundsException("");
     }
 
     /**
@@ -56,9 +67,17 @@ public class LinkedList<T extends Comparable<T>> {
      * @return returns the element that has been removed or null
      **/
     public T remove(T elt) {
-        if(list.remove(elt))
-            return elt;
-        return null;
+        Element k = first;
+        if (k == null)
+            return null;
+        for (; k._next != null && elt.compareTo(k._next._value) != 0; k = k._next)
+        {
+            continue;
+        }
+        if (k._next == null)
+            return null;
+        k._next = k._next._next;
+        return k._next._value;
     }
 
     /**
@@ -67,13 +86,17 @@ public class LinkedList<T extends Comparable<T>> {
      * @return Number of elements in the list
      **/
     public int size() {
-        return list.size();
+        int j = 0;
+        Element k = first;
+        for ( ;k != null; k = k._next)
+            j++;
+        return j;
     }
 
     /**
      * Removes all elements from the list.
      **/
     public void clear() {
-        list.clear();
+        first = null;
     }
 }

@@ -4,8 +4,17 @@ import fr.epita.assistants.logger.Logger;
 
 public enum SingletonEnumLogger implements Logger {
     INSTANCE;
+    private int _info;
+    private int _warn;
+    private int _error;
     @Override
     public void log(Level level, String message) {
+        if (level == Level.ERROR)
+            _error++;
+        else if(level == Level.WARN)
+            _warn++;
+        else if(level == Level.INFO)
+            _info++;
         System.err.println(Logger.getFormattedLog(level, message));
     }
 

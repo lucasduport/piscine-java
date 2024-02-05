@@ -42,10 +42,10 @@ public class Classics {
     {
         if (n < 0)
             return -1;
-        if (n > 2)
-            n--;
         long[] value = new long[n+1];
-        Arrays.fill(value, -1);
+        for (int i = 0; i < n+1; i++) {
+            value[i]= -1;
+        }
         return tribo(n,value);
     }
 
@@ -56,11 +56,13 @@ public class Classics {
      * @return true if the word is a palindrome, false otherwise.
      */
     public static boolean isPalindrome(String word) {
-        if (word == null || word.length() == 0)
+        if (word == null)
+            return false;
+        if (word.length() == 0)
             return true;
         int i = 0;
         int j = word.length() - 1;
-        for (; i != j;)
+        for (; i != j && i < word.length() && j >= 0;)
         {
             if (word.charAt(i) == ' ')
             {
@@ -72,7 +74,7 @@ public class Classics {
                 j--;
                 continue;
             }
-            if (word.charAt(i) != word.charAt(j))
+            if (word.toLowerCase().charAt(i)!= word.toLowerCase().charAt(j))
                 return false;
             i++;
             j--;

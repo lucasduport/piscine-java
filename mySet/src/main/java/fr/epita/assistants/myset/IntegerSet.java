@@ -8,7 +8,7 @@ public class IntegerSet
     public void insert(Integer i)
     {
         int j = 0;
-        for (; j < base_.size() && i < base_.get(j) ; j++) {
+        for (; j < base_.size() && i > base_.get(j) ; j++) {
             continue;
         }
         base_.add(j,i);

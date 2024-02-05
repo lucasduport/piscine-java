@@ -8,7 +8,7 @@ public class GenericSet<T extends Comparable<T>>
     public void insert(T i)
     {
         int j = 0;
-        for (; j < base_.size() && i.compareTo(base_.get(j)) < 0; j++) {
+        for (; j < base_.size() && i.compareTo(base_.get(j)) > 0; j++) {
             continue;
         }
         base_.add(j,i);

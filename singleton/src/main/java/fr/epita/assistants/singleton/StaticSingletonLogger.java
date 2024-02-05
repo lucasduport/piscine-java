@@ -7,49 +7,48 @@ public class StaticSingletonLogger implements Logger {
     private StaticSingletonLogger()
     {}
 
-    private static class SingletonHolder
+    private static class InstanceHolder
     {
+        static int _error = 0;
+        static int _warn = 0;
+
+        static int _info = 0;
         private final static StaticSingletonLogger instance = new StaticSingletonLogger();
     }
 
     public static StaticSingletonLogger getInstance()
     {
-        return SingletonHolder.instance;
+        return InstanceHolder.instance;
     }
-
-    private int _error = 0;
-    private int _warn = 0;
-
-    private int _info = 0;
 
     @Override
     public void log(Level level, String message) {
         if (level == Level.ERROR)
-            getInstance()._info++;
+            InstanceHolder._error++;
         else if(level == Level.WARN)
-            getInstance()._warn++;
+            InstanceHolder._warn++;
         else if(level == Level.INFO)
-            getInstance()._info++;
+            InstanceHolder._info++;
         System.err.println(Logger.getFormattedLog(level, message));
     }
 
     @Override
     public int getInfoCounter() {
-        return getInstance()._info;
+        return InstanceHolder._info;
     }
 
     @Override
     public int getWarnCounter() {
-        return getInstance()._warn;
+        return InstanceHolder._warn;
     }
 
     @Override
     public int getErrorCounter() {
-        return getInstance()._error;
+        return InstanceHolder._error;
     }
 
     @Override
     public void reset() {
-        getInstance()._info = getInstance()._warn = getInstance()._error = 0;
+        InstanceHolder._info = InstanceHolder._warn = InstanceHolder._error = 0;
     }
 }

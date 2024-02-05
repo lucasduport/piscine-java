@@ -87,6 +87,17 @@ public class MatrixTests {
         Matrix m = new Matrix(new int[][]{});
         assertEquals(m.getMatrix(), new int[][]{});
     }
+    @Test
+    void constructTest10() {
+        Matrix m = new Matrix(new int[][]{{},{},{}});
+        assertEquals(m.getMatrix(), new int[][]{});
+    }
+
+    @Test
+    void constructTest11() {
+        Matrix m = new Matrix(new int[][]{{1, 2 , 3 },{},{5, 6, 7}});
+        assertEquals(m.getMatrix(), new int[][]{});
+    }
 
 
     @Test

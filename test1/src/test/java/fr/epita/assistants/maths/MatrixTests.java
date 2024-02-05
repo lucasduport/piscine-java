@@ -25,10 +25,9 @@ public class MatrixTests {
 
     @Test
     void constructTest2() {
-        int[][] val = new int[3][7];
+        int[][] val = null;
         Matrix m = new Matrix(val);
         assertEquals(m.getMatrix(), val);
-        assertInstanceOf(Matrix.class, m);
     }
 
     @Test
@@ -37,6 +36,24 @@ public class MatrixTests {
         Matrix m = new Matrix(val);
         assertEquals(m.getMatrix(), val);
         assertInstanceOf(Matrix.class, m);
+    }
+
+    @Test
+    void constructTest4() {
+        int[][] val = new int[2][5];
+        Matrix m = new Matrix(val);
+        Matrix m2 = new Matrix(new int[2][3]);
+        assertNotEquals(m,m2);
+        assertNotSame(m,m2);
+    }
+
+    @Test
+    void constructTest5() {
+        int[][] val = new int[2][3];
+        Matrix m = new Matrix(val);
+        Matrix m2 = new Matrix(new int[2][3]);
+        assertNotEquals(m,m2);
+        assertNotSame(m,m2);
     }
 
     @Test
@@ -98,6 +115,40 @@ public class MatrixTests {
         val[0][1] = 0;
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(val1);
+        assertTrue(m.multiply(m1).equals(m1.multiply(m)));
+    }
+
+    @Test
+    void multiplyTest4()
+    {
+        int [][] val = new int[3][2];
+        val[0][0] = 0;
+        int [][] val1 = new int[2][3];
+        val[0][1] = 0;
+        Matrix m = new Matrix(val);
+        Matrix m1 = new Matrix(val1);
+        assertTrue(m.multiply(m1).equals(m1.multiply(m)));
+    }
+
+    @Test
+    void multiplyTest5()
+    {
+        int [][] val = new int[5][5];
+        val[0][0] = 0;
+        int [][] val1 = new int[5][5];
+        val[0][1] = 0;
+        Matrix m = new Matrix(val);
+        Matrix m1 = new Matrix(val1);
+        assertTrue(m.multiply(m1).equals(m1.multiply(m)));
+    }
+
+    @Test
+    void multiplyTest3()
+    {
+        int [][] val = new int[2][1];
+        val[0][0] = 0;
+        Matrix m = new Matrix(val);
+        Matrix m1 = new Matrix(null);
         assertTrue(m.multiply(m1).equals(m1.multiply(m)));
     }
 }

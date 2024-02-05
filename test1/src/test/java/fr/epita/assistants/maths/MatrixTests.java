@@ -61,6 +61,15 @@ public class MatrixTests {
         assertThrows(NullPointerException.class, () -> m.getMatrix());
     }
 
+    @Test
+    void constructTest7() {
+        int[][] val = new int[3][3];
+        val[0] = null;
+        Matrix m = new Matrix(val);
+        assertInstanceOf(Matrix.class, m);
+        assertEquals(m.getMatrix(), val);
+    }
+
 
     @Test
     void equalTest1() {
@@ -181,5 +190,17 @@ public class MatrixTests {
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(val1);
         assertThrows(IndexOutOfBoundsException.class, () -> m.multiply(m1));
+    }
+
+    @Test
+    void multiplyTest8()
+    {
+        int [][] val = new int[2][1];
+        val[0][0] = 0;
+        int [][] val1 = new int[1][2];
+        val1[0] = null;
+        Matrix m = new Matrix(val);
+        Matrix m1 = new Matrix(val1);
+        assertThrows(NullPointerException.class, () -> m.multiply(m1));
     }
 }

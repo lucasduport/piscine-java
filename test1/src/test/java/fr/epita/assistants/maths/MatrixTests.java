@@ -20,7 +20,6 @@ public class MatrixTests {
         Matrix m = new Matrix(val);
         assertInstanceOf(Matrix.class, m);
         assertEquals(m.getMatrix(), val);
-
     }
 
     @Test
@@ -29,6 +28,13 @@ public class MatrixTests {
         Matrix m = new Matrix(val);
         assertEquals(m.getMatrix(), val);
     }
+
+    void constructTest6() {
+        int[][] val = null;
+        Matrix m = new Matrix(val);
+        assertEquals(m.getMatrix(), val);
+    }
+
 
     @Test
     void constructTest3() {
@@ -115,9 +121,18 @@ public class MatrixTests {
         val[0][1] = 0;
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(val1);
+        assertFalse(m.multiply(m1).equals(m1.multiply(m)));
+    }
+    @Test
+
+    void multiplyTest3()
+    {
+        int [][] val = new int[2][1];
+        val[0][0] = 0;
+        Matrix m = new Matrix(val);
+        Matrix m1 = new Matrix(null);
         assertTrue(m.multiply(m1).equals(m1.multiply(m)));
     }
-
     @Test
     void multiplyTest4()
     {
@@ -139,16 +154,18 @@ public class MatrixTests {
         val[0][1] = 0;
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(val1);
-        assertTrue(m.multiply(m1).equals(m1.multiply(m)));
+        assertFalse(m.multiply(m1).equals(m1.multiply(m)));
     }
 
+
+
     @Test
-    void multiplyTest3()
+    void multiplyTest6()
     {
         int [][] val = new int[2][1];
         val[0][0] = 0;
         Matrix m = new Matrix(val);
-        Matrix m1 = new Matrix(null);
+        Matrix m1 = null;
         assertTrue(m.multiply(m1).equals(m1.multiply(m)));
     }
 }

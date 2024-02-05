@@ -64,7 +64,8 @@ public class MatrixTests {
     @Test
     void constructTest7() {
         int[][] val = new int[3][3];
-        val[0] = null;
+        val[0] = new int[] {};
+        val[1][2] = 6;
         Matrix m = new Matrix(val);
         assertInstanceOf(Matrix.class, m);
         assertEquals(m.getMatrix(), val);

@@ -70,6 +70,23 @@ public class MatrixTests {
         assertEquals(m.getMatrix(), val);
     }
 
+    @Test
+    void constructTest8() {
+        int[][] val = new int[3][3];
+        val[0] = null;
+        Matrix m = new Matrix(val);
+        assertInstanceOf(Matrix.class, m);
+        assertEquals(m.getMatrix(), val);
+        Matrix m1 = new Matrix(m.getMatrix());
+        assertEquals(m, m1);
+    }
+
+    @Test
+    void constructTest9() {
+        Matrix m = new Matrix(new int[][]{});
+        assertEquals(m.getMatrix(), new int[][]{});
+    }
+
 
     @Test
     void equalTest1() {
@@ -116,9 +133,9 @@ public class MatrixTests {
     void multiplyTest1()
     {
         int [][] val = new int[1][1];
-        val[0][0] = 0;
+        val[0][0] = 2;
         Matrix m = new Matrix(val);
-        assertFalse(m.multiply(m).equals(m));
+        assertNotEquals(m.multiply(m), m);
     }
 
     @Test
@@ -130,7 +147,7 @@ public class MatrixTests {
         val[0][1] = 0;
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(val1);
-        assertFalse(m.multiply(m1).equals(m1.multiply(m)));
+        assertEquals(m.multiply(m1), m1.multiply(m));
     }
     @Test
 
@@ -140,7 +157,7 @@ public class MatrixTests {
         val[0][0] = 0;
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(null);
-        assertTrue(m.multiply(m1).equals(m1.multiply(m)));
+        assertEquals(m.multiply(m1), m1.multiply(m));
     }
     @Test
     void multiplyTest4()
@@ -166,7 +183,7 @@ public class MatrixTests {
 
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(val1);
-        assertFalse(m.multiply(m1).equals(m1.multiply(m)));
+        assertEquals(m.multiply(m1), m1.multiply(m));
     }
 
 
@@ -177,7 +194,7 @@ public class MatrixTests {
         val[0][0] = 0;
         Matrix m = new Matrix(val);
         Matrix m1 = null;
-        assertTrue(m.multiply(m1).equals(m1.multiply(m)));
+        assertEquals(m.multiply(m1) ,m1.multiply(m));
     }
 
     @Test
@@ -202,5 +219,21 @@ public class MatrixTests {
         Matrix m = new Matrix(val);
         Matrix m1 = new Matrix(val1);
         assertThrows(NullPointerException.class, () -> m.multiply(m1));
+    }
+
+    @Test
+    void multiplyTest9()
+    {
+        int [][] val = new int[3][3];
+        Matrix m = new Matrix(val);
+        assertFalse(m.multiply(new Matrix(new int[][]{})).equals(m));
+    }
+
+    @Test
+    void multiplyTest10()
+    {
+        int [][] val = new int[][]{};
+        Matrix m = new Matrix(val);
+        assertEquals(m.multiply(m), m);
     }
 }

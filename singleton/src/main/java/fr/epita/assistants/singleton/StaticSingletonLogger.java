@@ -3,57 +3,53 @@ package fr.epita.assistants.singleton;
 import fr.epita.assistants.logger.Logger;
 
 public class StaticSingletonLogger implements Logger {
-    public static class InstanceHolder{
-        private static StaticSingletonLogger _INSTANCE;
-        public InstanceHolder(StaticSingletonLogger s)
-        {
-            _INSTANCE = s;
-        }
-
-        public static StaticSingletonLogger getInstance()
-        {
-            return _INSTANCE;
-        }
-    }
-    {
-        new InstanceHolder(this);
-    }
-
-    private int _info;
-    private int _warn;
-    private int _error;
 
     private StaticSingletonLogger()
+    {}
+
+    private static class SingletonHolder
     {
+        private final static StaticSingletonLogger instance = new StaticSingletonLogger();
     }
+
+    public static StaticSingletonLogger getInstance()
+    {
+        return SingletonHolder.instance;
+    }
+
+    private int _error = 0;
+    private int _warn = 0;
+
+    private int _info = 0;
+
     @Override
     public void log(Level level, String message) {
         if (level == Level.ERROR)
-            _error++;
+            getInstance()._info++;
         else if(level == Level.WARN)
-            _warn++;
+            getInstance()._warn++;
         else if(level == Level.INFO)
-            _info++;
+            getInstance()._info++;
         System.err.println(Logger.getFormattedLog(level, message));
     }
 
     @Override
     public int getInfoCounter() {
-        return _info;
+        return getInstance()._info;
     }
 
     @Override
     public int getWarnCounter() {
-        return _warn;
+        return getInstance()._warn;
     }
 
     @Override
     public int getErrorCounter() {
-        return _error;
+        return getInstance()._error;
     }
 
     @Override
     public void reset() {
-        _info = _warn = _error = 0;
+        getInstance()._info = getInstance()._warn = getInstance()._error = 0;
     }
 }

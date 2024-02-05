@@ -10,31 +10,31 @@ public enum SingletonEnumLogger implements Logger {
     @Override
     public void log(Level level, String message) {
         if (level == Level.ERROR)
-            _error++;
+            this._error++;
         else if(level == Level.WARN)
-            _warn++;
+            this._warn++;
         else if(level == Level.INFO)
-            _info++;
+            this._info++;
         System.err.println(Logger.getFormattedLog(level, message));
     }
 
     @Override
     public int getInfoCounter() {
-        return INSTANCE.getInfoCounter();
+        return this._info;
     }
 
     @Override
     public int getWarnCounter() {
-        return INSTANCE.getWarnCounter();
+        return this._warn;
     }
 
     @Override
     public int getErrorCounter() {
-        return INSTANCE.getErrorCounter();
+        return this._error;
     }
 
     @Override
     public void reset() {
-        INSTANCE.reset();
+        this._info = this._warn = this._error = 0;
     }
 }

@@ -46,6 +46,8 @@ public class EBookReader implements IPaginated, IUpdatable, IReadable{
 
     @Override
     public String readCurrentPage() {
+        if (ebook == null)
+            return null;
         return ebook.readCurrentPage();
     }
 }

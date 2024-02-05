@@ -12,7 +12,9 @@ public final class EBook extends Book implements IEditable, IPaginated{
     public EBook(String _name)
     {
         super(_name, new ArrayList<>());
+        this.openedOn = -1;
         this.addPage();
+        this.openedOn = 0;
     }
     public EBook(String _name, List<String> _pages) {
         super(_name, _pages);
@@ -28,7 +30,7 @@ public final class EBook extends Book implements IEditable, IPaginated{
 
     @Override
     public void addPage() {
-        this.pages.add(this.getCurrentPage(), "");
+        this.pages.add(this.getCurrentPage() + 1, "");
     }
 
     @Override

@@ -14,8 +14,7 @@ public sealed class Book implements IReadable, IPaginated
     public String getName() {
         return name;
     }
-
-    public Book(String _name, List<String> _pages) {
+    Book(String _name, List<String> _pages) {
         name = _name;
         pages = new ArrayList<>();
         pages.addAll(_pages);

@@ -28,18 +28,17 @@ public class LinkedList<T extends Comparable<T>> {
      * @param e Element to be inserted
      **/
     public void insert(T elt) {
+        if (first == null) {
+            first = new Element(elt);
+            return;
+        }
         Element i = first;
-        for (; i != null && (elt==null || elt.compareTo(i._value) < 0); i = i._next) {
+        for (; i._next != null && (elt==null || elt.compareTo(i._value) < 0); i = i._next) {
             continue;
         }
         Element newElt = new Element(elt);
-        if (i == null)
-            first = newElt;
-        else
-        {
-            newElt._next = i._next;
-            i._next = newElt;
-        }
+        newElt._next = i._next;
+        i._next = newElt;
     }
 
     /**
@@ -55,7 +54,7 @@ public class LinkedList<T extends Comparable<T>> {
         Element k = first;
         for ( ; j < i && k != null; k = k._next)
             j++;
-        if(j == i)
+        if(k != null)
             return k._value;
         throw new IndexOutOfBoundsException("");
     }
@@ -76,8 +75,9 @@ public class LinkedList<T extends Comparable<T>> {
         }
         if (k._next == null)
             return null;
+        T ret = k._next._value;
         k._next = k._next._next;
-        return k._next._value;
+        return ret;
     }
 
     /**

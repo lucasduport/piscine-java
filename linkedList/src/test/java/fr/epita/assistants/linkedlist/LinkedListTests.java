@@ -21,7 +21,9 @@ public class LinkedListTests {
         list.insert(3);
         list.insert(5);
         list.insert(2);
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(4));
+        list.insert(5);
+        list.insert(2);
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(6));
     }
 
     @Test

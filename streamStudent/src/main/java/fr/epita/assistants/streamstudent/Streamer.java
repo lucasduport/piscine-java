@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Streamer {
@@ -11,7 +12,7 @@ public class Streamer {
 
         return stream.
                 filter(elt -> {
-                     return (elt.getKey().compareTo(100) >= 0 && elt.getKey().compareTo(0) <= 0)
+                     return (elt.getKey().compareTo(100) <= 0 && elt.getKey().compareTo(0) >= 0)
                              || (elt.getValue().matches("[^.]+[.][^.]+") ||
                             elt.getValue().matches("[^_]+_[^_]+"));
                 });
@@ -46,10 +47,22 @@ public class Streamer {
         Stream<Pair<Integer, String>> newStream = stream.sorted(
                 Comparator.comparing(Pair::getKey)
         );
-        return newStream.
-                max(Comparator.comparing(Pair::getValue)).stream().
-                sorted(Comparator.comparing(Pair::getValue)).
-                findAny();
+        List<Pair<Integer, String>> s1 = newStream.toList();
+
+        Stream<Pair<Integer, String>> s2 = s1.stream();
+
+        Stream<Pair<Integer, String>> s3 = s2.filter(
+                elt ->
+                {
+                    if (s1.size() == 0)
+                        return Objects.equals(elt.getKey(), 0);
+                    else {
+                        Integer maxi = s1.get(s1.size() - 1).getKey();
+                        return Objects.equals(elt.getKey(), maxi);
+                    }
+                }
+        );
+        return s3.sorted(Comparator.comparing(Pair::getValue)).findAny();
 
     }
 

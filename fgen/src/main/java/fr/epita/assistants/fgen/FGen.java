@@ -1,12 +1,10 @@
 package fr.epita.assistants.fgen;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class FGen {
+public class FGen extends ClassLoader{
 
     private String currPath;
 
@@ -54,7 +52,12 @@ public class FGen {
 
     public FGen(final String inputPath) {
         currPath = new File("").getAbsolutePath();
-        try (BufferedReader br = new BufferedReader(new FileReader(inputPath))) {
+        InputStream is = getClass().getClassLoader().getResourceAsStream(inputPath);
+        if (is == null)
+            throw new RuntimeException();
+
+        InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+        try (BufferedReader br = new BufferedReader(isr)) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.charAt(0) == '+')
@@ -65,7 +68,7 @@ public class FGen {
                     chdir(line.substring(2));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

@@ -16,17 +16,18 @@ import java.util.Map;
 public class Json {
     public static void addToJson(String foo, String bar, String s){
         try {
-            // create object mapper instance
             ObjectMapper mapper = new ObjectMapper();
 
             File f = new File(s);
-            Map<String, String> map;
-            if (f.exists())
-                 map = mapper.readValue(Paths.get(s).toFile(), Map.class);
-            else
-                map = new HashMap<>();
+            Map<String, String> map = new HashMap<>();
+            try {
+                if (f.exists())
+                    map = mapper.readValue(Paths.get(s).toFile(), Map.class);
+            }
+            catch(Exception e)
+            {
+            }
 
-            // print map entries
             map.put(foo, bar);
 
             ObjectMapper om = new ObjectMapper();
@@ -38,9 +39,6 @@ public class Json {
             {
                 throw new RuntimeException();
             }
-
-
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

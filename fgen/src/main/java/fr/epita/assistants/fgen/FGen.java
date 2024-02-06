@@ -2,6 +2,7 @@ package fr.epita.assistants.fgen;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.InvalidPathException;
 
 public class FGen extends ClassLoader{
 
@@ -25,7 +26,7 @@ public class FGen extends ClassLoader{
             File file = new File(currPath + File.separator+ path);
             file.createNewFile();
 
-        }catch (IOException e) {
+        }catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -37,8 +38,6 @@ public class FGen extends ClassLoader{
                 deleteDirectory(f.getAbsoluteFile());
             }
         }
-        else
-            throw new RuntimeException();
         file.delete();
     }
     private void delete(final String path)
@@ -68,7 +67,7 @@ public class FGen extends ClassLoader{
                 else if (line.charAt(0) == '>')
                     chdir(line.substring(2));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }

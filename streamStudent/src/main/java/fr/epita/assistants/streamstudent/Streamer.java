@@ -12,9 +12,9 @@ public class Streamer {
 
         return stream.
                 filter(elt -> {
-                     return (elt.getKey().compareTo(100) <= 0 && elt.getKey().compareTo(0) >= 0)
-                             || (elt.getValue().matches("[^.]+[.][^.]+") ||
-                            elt.getValue().matches("[^_]+_[^_]+"));
+                     return (elt.getKey() >= 0 && elt.getKey() <= 100)
+                             || (elt.getValue().matches("[^._]*[.][^._]*") ||
+                            elt.getValue().matches("[^_.]*_[^_.]*"));
                 });
     }
 

@@ -16,7 +16,7 @@ public class DisplayEmbedFile {
     public Optional<String> display() {
         if (Objects.equals(filename, ""))
             return Optional.empty();
-        File file = new File(getClass().getClassLoader().getResource("fileTest.txt").getFile());
+        File file = new File(getClass().getClassLoader().getResource(filename).getFile());
         FileInputStream inputStream;
         try {
             inputStream = new FileInputStream(file);

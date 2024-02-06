@@ -2,7 +2,6 @@ package fr.epita.assistants.fgen;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class FGen extends ClassLoader{
 
@@ -14,7 +13,7 @@ public class FGen extends ClassLoader{
                 return;
     }
 
-    private void create(final String path)
+    private void create(final String path) throws RuntimeException
     {
         try {
             int idx = path.lastIndexOf(File.separator);
@@ -31,14 +30,16 @@ public class FGen extends ClassLoader{
         }
 
     }
-    private boolean deleteDirectory (File file){
+    private void deleteDirectory (File file){
         File[] contents = file.listFiles();
         if (contents != null) {
             for (File f : contents) {
                 deleteDirectory(f.getAbsoluteFile());
             }
         }
-        return file.delete();
+        else
+            throw new RuntimeException();
+        file.delete();
     }
     private void delete(final String path)
     {

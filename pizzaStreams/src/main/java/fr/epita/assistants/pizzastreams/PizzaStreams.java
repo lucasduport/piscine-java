@@ -22,10 +22,7 @@ public class PizzaStreams {
      * double NaN if the stream is empty
      */
     public static Double getAveragePrice(Stream<Pizza> pizzaStream) {
-        OptionalDouble d = pizzaStream.mapToInt(Pizza::getPrice).average();
-        if (d.isEmpty())
-            return Double.NaN;
-        return d.getAsDouble();
+        return pizzaStream.mapToInt(Pizza::getPrice).average().orElse(Double.NaN);
     }
 
     /**
@@ -46,7 +43,7 @@ public class PizzaStreams {
         return pizzaStream.
                 min(
                         Comparator.comparing(Pizza::getPrice)
-                ).get();
+                ).orElse(null);
     }
 
     /**
@@ -78,9 +75,13 @@ public class PizzaStreams {
      */
     public static boolean areAllNatureItalians(Stream<Pizza> pizzaStream) {
         return pizzaStream.allMatch(
-                p -> p.getDough() == Dough.NATURE &&
-                        p.getTopping().getSauce() == Sauce.TOMATO &&
-                        p.getTopping().getCheese() == Cheese.MOZZARELLA
+                p -> {
+                    if (p.getDough() == Dough.NATURE)
+                        return p.getTopping().getSauce() == Sauce.TOMATO &&
+                            p.getTopping().getCheese() == Cheese.MOZZARELLA;
+                    else
+                        return true;
+                }
         );
     }
 }

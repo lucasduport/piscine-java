@@ -1,6 +1,7 @@
 package fr.epita.assistants.streamstudent;
 
 import javax.swing.*;
+import javax.swing.text.html.Option;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -14,9 +15,9 @@ public class Streamer {
 
         return stream.
                 filter(elt -> {
-                     return (elt.getKey().compareTo(100) <= 0 && elt.getKey().compareTo(0) >= 0)
-                             || (elt.getValue().matches(".*[.]{1}.*") ||
-                            elt.getValue().matches(".*[_]{1}.*"));
+                     return (elt.getKey().compareTo(100) >= 0 && elt.getKey().compareTo(0) <= 0)
+                             || (elt.getValue().matches("[^.]+[.][^.]+") ||
+                            elt.getValue().matches("[^_]+_[^_]+"));
                 });
     }
 
@@ -50,6 +51,8 @@ public class Streamer {
                 Comparator.comparing(Pair::getKey)
         );
         List<Pair<Integer, String>> l = newStream.toList();
+        if (l.size() == 0)
+            return Optional.empty();
         Integer maxi = l.get(l.size() - 1).getKey();
         Stream<Pair<Integer, String>> s1 = l.stream();
         Stream<Pair<Integer, String>> s2 = s1.filter(
@@ -63,8 +66,8 @@ public class Streamer {
         return stream.map(
                 elt -> {
                     if ((elt.getValue().matches("[m|M][a|A].*") ||
-                            elt.getValue().matches("[L|l]*.*x")))
-                        return new Pair<Integer, String>(elt.getKey() * 2 % 100, elt.getValue());
+                            elt.getValue().matches("[L|l].*[x|X]")))
+                        return new Pair<Integer, String>(Math.min(elt.getKey() * 2, 100), elt.getValue());
                     else
                         return elt;
                 }

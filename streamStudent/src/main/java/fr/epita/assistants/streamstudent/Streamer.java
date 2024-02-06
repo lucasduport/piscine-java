@@ -3,6 +3,7 @@ package fr.epita.assistants.streamstudent;
 import javax.swing.*;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -11,21 +12,36 @@ import java.util.stream.Stream;
 public class Streamer {
     public Stream<Pair<Integer, String>> validator(Stream<Pair<Integer, String>> stream) {
 
-        return stream.filter(elt -> elt.getKey() <= 100 && elt.getKey() >= 0)
-                .filter(elt -> (elt.getValue().matches(".*[.]{1}.*") ||
-                        elt.getValue().matches(".*[_]{1}.*")));
+        return stream.
+                filter(elt -> {
+                     return (elt.getKey().compareTo(100) <= 0 && elt.getKey().compareTo(0) >= 0)
+                             || (elt.getValue().matches(".*[.]{1}.*") ||
+                            elt.getValue().matches(".*[_]{1}.*"));
+                });
     }
 
     public Stream<Pair<Integer, String>> orderGrade(Stream<Pair<Integer, String>> stream) {
         return stream.sorted(
-                Comparator.comparing(Pair::getKey)
+                new Comparator<Pair<Integer, String>>() {
+                    @Override
+                    public int compare(Pair<Integer, String> o1, Pair<Integer, String> o2) {
+                        if (!Objects.equals(o1.getKey(), o2.getKey()))
+                            return o1.getKey().compareTo(o2.getKey());
+                        return o1.getValue().compareTo(o2.getValue());
+                    }
+                }
         );
     }
 
     public Stream<Pair<Integer, String>> lowercase(Stream<Pair<Integer, String>> stream) {
         ;
         return stream.map(
-                elt -> new Pair<Integer, String>(elt.getKey(), elt.getValue().toLowerCase())
+                elt -> {
+                    if (elt.getValue().contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+                        return new Pair<Integer, String>(elt.getKey() / 2, elt.getValue().toLowerCase());
+                    else
+                        return new Pair<Integer, String>(elt.getKey(), elt.getValue().toLowerCase());
+                }
         );
     }
 
@@ -34,10 +50,10 @@ public class Streamer {
                 Comparator.comparing(Pair::getKey)
         );
         List<Pair<Integer, String>> l = newStream.toList();
-        int maxi = l.get(l.size() - 1).getKey();
+        Integer maxi = l.get(l.size() - 1).getKey();
         Stream<Pair<Integer, String>> s1 = l.stream();
         Stream<Pair<Integer, String>> s2 = s1.filter(
-                elt -> elt.getKey() == maxi
+                elt -> Objects.equals(elt.getKey(), maxi)
         );
         return s2.sorted(Comparator.comparing(Pair::getValue)).findAny();
 
@@ -59,8 +75,8 @@ public class Streamer {
         return stream.map(
                 elt ->
                 {
-                    return new Pair<Integer, String>(elt.getKey(), elt.getValue().substring(elt.getValue().length() / 2,
-                            elt.getValue().length() - 1) + elt.getValue().substring(0, elt.getValue().length() / 2));
+                    return new Pair<Integer, String>(elt.getKey(), elt.getValue().substring(elt.getValue().length() / 2
+                    ) + elt.getValue().substring(0, elt.getValue().length() / 2));
                 }
         );
     }

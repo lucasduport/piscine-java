@@ -65,7 +65,7 @@ public class FGen {
                     chdir(line.substring(2));
             }
         } catch (IOException e) {
-            throw new RuntimeException("Caca");
+            e.printStackTrace();
         }
     }
 }

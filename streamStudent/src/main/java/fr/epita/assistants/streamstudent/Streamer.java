@@ -1,13 +1,9 @@
 package fr.epita.assistants.streamstudent;
 
-import javax.swing.*;
-import javax.swing.text.html.Option;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Streamer {
@@ -38,7 +34,7 @@ public class Streamer {
         ;
         return stream.map(
                 elt -> {
-                    if (elt.getValue().contains("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+                    if (elt.getValue().matches(".*[A-Z].*"))
                         return new Pair<Integer, String>(elt.getKey() / 2, elt.getValue().toLowerCase());
                     else
                         return new Pair<Integer, String>(elt.getKey(), elt.getValue().toLowerCase());
@@ -50,15 +46,10 @@ public class Streamer {
         Stream<Pair<Integer, String>> newStream = stream.sorted(
                 Comparator.comparing(Pair::getKey)
         );
-        List<Pair<Integer, String>> l = newStream.toList();
-        if (l.size() == 0)
-            return Optional.empty();
-        Integer maxi = l.get(l.size() - 1).getKey();
-        Stream<Pair<Integer, String>> s1 = l.stream();
-        Stream<Pair<Integer, String>> s2 = s1.filter(
-                elt -> Objects.equals(elt.getKey(), maxi)
-        );
-        return s2.sorted(Comparator.comparing(Pair::getValue)).findAny();
+        return newStream.
+                max(Comparator.comparing(Pair::getValue)).stream().
+                sorted(Comparator.comparing(Pair::getValue)).
+                findAny();
 
     }
 

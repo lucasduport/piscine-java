@@ -2,7 +2,9 @@ package fr.epita.assistants.fgen;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 
 public class FGen extends ClassLoader{
 
@@ -48,6 +50,9 @@ public class FGen extends ClassLoader{
     private void chdir(final String path)
     {
         currPath += File.separator + path;
+        File f = new File(currPath);
+        if (!f.exists())
+            throw new RuntimeException();
     }
 
     public FGen(final String inputPath) {

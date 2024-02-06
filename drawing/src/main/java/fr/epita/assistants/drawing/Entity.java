@@ -4,14 +4,14 @@ package fr.epita.assistants.drawing;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class Entity implements IDrawable {
+public abstract class Entity implements IDrawable {
     @Getter private long id;
-    private static long SEQUENCE;
+    private static long SEQUENCE = 0;
 
     public Entity()
     {
-        SEQUENCE++;
         id = SEQUENCE;
+        SEQUENCE++;
     }
 
     @Override

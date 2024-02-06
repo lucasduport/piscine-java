@@ -16,7 +16,10 @@ public class DisplayEmbedFile {
     public Optional<String> display() {
         if (Objects.equals(filename, ""))
             return Optional.empty();
-        File file = new File(getClass().getClassLoader().getResource(filename).getFile());
+        var v = getClass().getClassLoader().getResource(filename);
+        if (v == null)
+            return Optional.empty();
+        File file = new File(v.getFile());
         FileInputStream inputStream;
         try {
             inputStream = new FileInputStream(file);

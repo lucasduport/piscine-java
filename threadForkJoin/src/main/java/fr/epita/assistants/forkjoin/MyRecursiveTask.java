@@ -31,25 +31,25 @@ public class MyRecursiveTask extends RecursiveTask<Double> {
                     avg += matrix[i][j];
                 }
             }
-            return nb == 0? 0 : avg / nb;
+            return nb == 0 ? 0 : avg / nb;
         }
         else
         {
-            Double avg = (double) 0;
-            var t1 = new MyRecursiveTask(
-                    this.matrix, xLowerBound, xUpperBound / 2,
-                    yLowerBound, yUpperBound / 2).fork();
-            var t2 =  new MyRecursiveTask(
-                    this.matrix, xUpperBound / 2, xUpperBound,
-                    yLowerBound, yUpperBound / 2).fork();
-            var t3 = new MyRecursiveTask(
-                    this.matrix, xLowerBound, xUpperBound / 2,
-                    yUpperBound / 2, yUpperBound).fork();
-            var t4 = new MyRecursiveTask(
-                    this.matrix, xUpperBound / 2, xUpperBound,
-                    yUpperBound / 2, yUpperBound).fork();
 
-            return (t1.join() + t2.join() + t3.join() + t4.join()) / 4;
+            var t1 = new MyRecursiveTask(
+                    this.matrix, xLowerBound, (xUpperBound - xLowerBound) / 2 + xLowerBound,
+                    yLowerBound, (yUpperBound - yLowerBound)/ 2 + yLowerBound).fork();
+            var t2 =  new MyRecursiveTask(
+                    this.matrix, (xUpperBound - xLowerBound) / 2 + xLowerBound, xUpperBound,
+                    yLowerBound, (yUpperBound - yLowerBound) / 2 + yLowerBound).fork();
+            var t3 = new MyRecursiveTask(
+                    this.matrix, xLowerBound, (xUpperBound - xLowerBound) / 2 + xLowerBound,
+                    (yUpperBound - yLowerBound) / 2 + yLowerBound, yUpperBound).fork();
+            var t4 = new MyRecursiveTask(
+                    this.matrix, (xUpperBound - xLowerBound) / 2 + xLowerBound, xUpperBound,
+                    (yUpperBound - yLowerBound) / 2 + yLowerBound, yUpperBound).fork();
+
+            return (t1.join() + t2.join() + t3.join() + t4.join()) / 4d;
         }
     }
 }

@@ -1,6 +1,5 @@
 package fr.epita.assistants.scheduler;
 
-import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -15,8 +14,8 @@ public class MyTask<INPUT_TYPE, RETURN_TYPE> implements Task<RETURN_TYPE> {
         this.cpl_ftr = _cpl_ftr;
     }
 
-    static <RETURN_TYPE> MyTask of(Supplier<RETURN_TYPE> actionSupplier) {
-        return new MyTask(CompletableFuture.supplyAsync(actionSupplier));
+    static <RETURN_TYPE> Task<RETURN_TYPE> of(Supplier<RETURN_TYPE> actionSupplier) {
+        return new MyTask<>(CompletableFuture.supplyAsync(actionSupplier));
     }
 
     @Override

@@ -27,7 +27,7 @@ public class Student {
         majors.add("IF");
         majors.add("Q");
 
-        if (name.contains("0123456789"))
+        if (name.matches(".*[0-9].*"))
             throw new InvalidNameException(name);
         if (age <= 0 || age >= 130)
             throw new InvalidAgeException(age);

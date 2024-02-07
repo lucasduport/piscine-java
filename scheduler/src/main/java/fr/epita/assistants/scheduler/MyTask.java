@@ -2,6 +2,7 @@ package fr.epita.assistants.scheduler;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -35,7 +36,21 @@ public class MyTask<INPUT_TYPE, RETURN_TYPE> implements Task<RETURN_TYPE> {
 
     @Override
     public Task<RETURN_TYPE> andThenWait(long number, TimeUnit timeUnit) {
-        return new MyTask<>(cpl_ftr.thenApplyAsync(
-                (task) -> task, CompletableFuture.delayedExecutor(number, timeUnit)));
+        return new MyTask<>(cpl_ftr.thenApply((r) ->
+                {
+                    try {
+                        CompletableFuture.runAsync(() ->
+                                {
+                                },
+                                CompletableFuture.delayedExecutor(1500, TimeUnit.MILLISECONDS)).get();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (ExecutionException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return r;
+                }
+
+        ));
     }
 }

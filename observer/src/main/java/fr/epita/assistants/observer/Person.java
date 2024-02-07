@@ -9,6 +9,7 @@ public class Person implements Observable.Observer<Swimmer> {
 
     @Override
     public void onEvent(Swimmer event) {
-        System.out.println(this.name + ": Waves at " + event.getName() + ".");
+        if (event.getStatus() == SwimmerStatus.WAVING)
+            System.out.println(this.name + ": Waves at " + event.getName() + ".");
     }
 }

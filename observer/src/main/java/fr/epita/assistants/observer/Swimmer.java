@@ -6,8 +6,8 @@ import java.util.Set;
 
 public class Swimmer implements Observable<Swimmer>{
 
-    private Set<Observer<Swimmer>> observers;
-    private String name;
+    private final Set<Observer<Swimmer>> observers;
+    private final String name;
     private SwimmerStatus status = SwimmerStatus.OK;
 
     @Override

@@ -12,7 +12,7 @@ public class Swimmer implements Observable<Swimmer>{
 
     @Override
     public Set<Observer<Swimmer>> getObservers() {
-        return null;
+        return observers;
     }
 
     public Swimmer(String name)
@@ -26,7 +26,6 @@ public class Swimmer implements Observable<Swimmer>{
     public void register(Observer<Swimmer>... observers) {
 
         this.observers.addAll(Arrays.asList(observers));
-        System.out.println("Lifeguard begins to keep an eye on the swimmers.");
     }
 
     @Override

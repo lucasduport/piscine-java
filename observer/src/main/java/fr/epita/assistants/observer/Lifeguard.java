@@ -13,5 +13,6 @@ public class Lifeguard implements Observable.Observer<Swimmer> {
 
     public Lifeguard(String name) {
         this.name = name;
+        System.out.println(this.name + " begins to keep an eye on the swimmers.");
     }
 }

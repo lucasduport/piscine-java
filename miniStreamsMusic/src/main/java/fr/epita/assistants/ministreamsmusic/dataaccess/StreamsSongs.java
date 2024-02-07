@@ -6,7 +6,7 @@ import fr.epita.assistants.ministreamsmusic.data.Song;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StreamSongs {
+public class StreamsSongs {
     public static List<String> getOlderArtists(List<Song> songs)
     {
         return songs.stream()

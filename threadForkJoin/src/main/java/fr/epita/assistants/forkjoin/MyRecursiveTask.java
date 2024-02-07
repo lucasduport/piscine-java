@@ -1,9 +1,5 @@
 package fr.epita.assistants.forkjoin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 
@@ -23,31 +19,14 @@ public class MyRecursiveTask extends RecursiveTask<Double> {
         this.yUpperBound = yUpperBound;
     }
 
-    private List<MyRecursiveTask> createSubtasks() {
-        List<MyRecursiveTask> dividedTasks = new ArrayList<>();
-        dividedTasks.add(new MyRecursiveTask(
-                this.matrix, xLowerBound, xUpperBound / 2, 
-                yLowerBound, yUpperBound / 2));
-        dividedTasks.add(new MyRecursiveTask(
-                this.matrix, xUpperBound / 2, xUpperBound,
-                yLowerBound, yUpperBound / 2));
-        dividedTasks.add(new MyRecursiveTask(
-                this.matrix, xLowerBound, xUpperBound / 2,
-                yUpperBound / 2, yUpperBound));
-        dividedTasks.add(new MyRecursiveTask(
-                this.matrix, xUpperBound / 2, xUpperBound,
-                yUpperBound / 2, yUpperBound));
-        return dividedTasks;
-    }
-
     @Override
     protected Double compute() {
         if (  xUpperBound - xLowerBound <= THRESHOLD && yUpperBound - yLowerBound  <= THRESHOLD)
         {
             Double avg = (double) 0;
             int nb = 0;
-            for (int i = xLowerBound; i < xUpperBound; i++) {
-                for (int j = yLowerBound; j < yUpperBound; j++) {
+            for (int i = yLowerBound; i < yUpperBound; i++) {
+                for (int j = xLowerBound; j < xUpperBound; j++) {
                     nb++;
                     avg += matrix[i][j];
                 }
@@ -56,13 +35,20 @@ public class MyRecursiveTask extends RecursiveTask<Double> {
         }
         else
         {
-            List<MyRecursiveTask> dividedTasks = createSubtasks();
             Double avg = (double) 0;
-            for (int i = 0; i < dividedTasks.size(); i++)
-            {
-                avg += dividedTasks.get(i).compute();
-            }
-            return dividedTasks.size() == 0? 0 :avg / dividedTasks.size();
+            avg += new MyRecursiveTask(
+                    this.matrix, xLowerBound, xUpperBound / 2,
+                    yLowerBound, yUpperBound / 2).compute();
+            avg +=  new MyRecursiveTask(
+                    this.matrix, xUpperBound / 2, xUpperBound,
+                    yLowerBound, yUpperBound / 2).compute();
+            avg += new MyRecursiveTask(
+                    this.matrix, xLowerBound, xUpperBound / 2,
+                    yUpperBound / 2, yUpperBound).compute();
+            avg += new MyRecursiveTask(
+                    this.matrix, xUpperBound / 2, xUpperBound,
+                    yUpperBound / 2, yUpperBound).compute();
+            return avg / 4;
         }
     }
 }

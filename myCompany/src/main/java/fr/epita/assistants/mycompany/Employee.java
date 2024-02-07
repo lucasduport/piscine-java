@@ -4,7 +4,7 @@ public abstract class Employee {
     private String firstName;
     private String lastName;
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String lastName, String firstName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

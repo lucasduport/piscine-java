@@ -44,7 +44,7 @@ public class Company {
         if (!employees.contains(e))
             System.out.println(e + " is not employed by " + this.name + ".");
         if (!employees.contains(m))
-            System.out.println(e + " is not employed by " + this.name + ".");
+            System.out.println(m + " is not employed by " + this.name + ".");
         if (!employees.contains(e) || !employees.contains(m))
             return false;
         if (employeeManagement.put(e,m) == null)

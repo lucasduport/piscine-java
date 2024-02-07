@@ -13,7 +13,8 @@ public class StreamsSongs {
                 .filter( a -> a.getArtist().getAge() >= 30)
                 .map(i -> i.getArtist().getSurname())
                 .distinct()
-                .limit(10).collect(Collectors.toList());
+                .limit(10)
+                .collect(Collectors.toList());
     }
 
     public static Integer getSumAges(List<Song> songs) {
@@ -21,8 +22,8 @@ public class StreamsSongs {
                 .map (Song::getArtist)
                 .distinct()
                 .filter(
-                        a -> a.getAge() >= 20
-                ).mapToInt(Artist::getAge).sum();
+                        a -> a.getAge() >= 20)
+                .mapToInt(Artist::getAge).sum();
     }
 
     public static List<String> getMusics(List<Song> songs)
@@ -32,7 +33,7 @@ public class StreamsSongs {
                         i -> i
                         .getArtist()
                         .getName()
-                        .matches(".*[an|aN|An|AN].*"))
+                        .matches(".*(an|aN|An|AN).*"))
                 .limit(10)
                 .map(Song::getName)
                 .collect(Collectors.toList());

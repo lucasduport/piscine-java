@@ -41,7 +41,7 @@ public class MyTask<INPUT_TYPE, RETURN_TYPE> implements Task<RETURN_TYPE> {
                         CompletableFuture.runAsync(() ->
                                 {
                                 },
-                                CompletableFuture.delayedExecutor(1500, TimeUnit.MILLISECONDS)).get();
+                                CompletableFuture.delayedExecutor(number, timeUnit)).get();
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     } catch (ExecutionException e) {

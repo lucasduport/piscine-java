@@ -36,19 +36,20 @@ public class MyRecursiveTask extends RecursiveTask<Double> {
         else
         {
             Double avg = (double) 0;
-            avg += new MyRecursiveTask(
+            var t1 = new MyRecursiveTask(
                     this.matrix, xLowerBound, xUpperBound / 2,
-                    yLowerBound, yUpperBound / 2).compute();
-            avg +=  new MyRecursiveTask(
+                    yLowerBound, yUpperBound / 2).fork();
+            var t2 =  new MyRecursiveTask(
                     this.matrix, xUpperBound / 2, xUpperBound,
-                    yLowerBound, yUpperBound / 2).compute();
-            avg += new MyRecursiveTask(
+                    yLowerBound, yUpperBound / 2).fork();
+            var t3 = new MyRecursiveTask(
                     this.matrix, xLowerBound, xUpperBound / 2,
-                    yUpperBound / 2, yUpperBound).compute();
-            avg += new MyRecursiveTask(
+                    yUpperBound / 2, yUpperBound).fork();
+            var t4 = new MyRecursiveTask(
                     this.matrix, xUpperBound / 2, xUpperBound,
-                    yUpperBound / 2, yUpperBound).compute();
-            return avg / 4;
+                    yUpperBound / 2, yUpperBound).fork();
+
+            return (t1.join() + t2.join() + t3.join() + t4.join()) / 4;
         }
     }
 }

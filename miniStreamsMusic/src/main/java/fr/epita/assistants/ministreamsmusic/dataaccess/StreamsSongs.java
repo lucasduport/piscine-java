@@ -20,7 +20,6 @@ public class StreamsSongs {
     public static Integer getSumAges(List<Song> songs) {
         return songs.stream()
                 .map (Song::getArtist)
-                .distinct()
                 .filter(a -> a.getAge() >= 20)
                 .mapToInt(Artist::getAge)
                 .sum();

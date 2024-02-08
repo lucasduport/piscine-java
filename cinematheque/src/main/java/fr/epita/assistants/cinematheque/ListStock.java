@@ -1,8 +1,6 @@
 package fr.epita.assistants.cinematheque;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -31,7 +29,7 @@ public class ListStock<T> extends Stock<T>{
     }
     @Override
     public boolean add(T t) {
-        this.property.firePropertyChange("value", this.items, this.value);
+        this.property.firePropertyChange(String.valueOf(Operation.Add), this.items, t);
         return items.add(t);
     }
 
@@ -60,7 +58,7 @@ public class ListStock<T> extends Stock<T>{
         this.items = items
                 .stream()
                 .sorted(
-                        cmp::compare
+                        cmp
         ).toList();
         boolean changed = false;
         for (int i = 0; i < save.size() ; i++) {

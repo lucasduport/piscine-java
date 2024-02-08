@@ -3,7 +3,9 @@ package fr.epita.assistants.cinematheque;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Logger implements PropertyChangeListener {
     private PrintStream output;
@@ -23,7 +25,10 @@ public class Logger implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         LocalDate n = LocalDate.now();
         Stock.Operation o = (Stock.Operation) evt.getNewValue();
-        output.println("[" + n.toString().replace(" ", "|") + "] "+ get_message(o));
+        String pattern = "dd/MM/yyyy HH:mm:ss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String date = simpleDateFormat.format(new Date());
+        output.println("[" + date + "] "+ get_message(o));
     }
 
     public Logger(PrintStream output) {

@@ -1,7 +1,5 @@
 package fr.epita.assistants.cinematheque;
 
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -12,18 +10,19 @@ public class Cinematheque {
 
     private Stock<Movie> stock;
     private Logger logger;
+
     public Cinematheque()
     {
         stock = new ListStock<>();
+        stock.property.addPropertyChangeListener(new Logger(System.out));
+        stock.property.addPropertyChangeListener(new Counter());
     }
     public Cinematheque(PrintStream output)
     {
+        var logger = new Logger(output);
         stock = new ListStock<>();
-        if (output == null)
-            logger = new Logger(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-        else
-            logger = new Logger(output);
-
+        stock.property.addPropertyChangeListener(logger);
+        stock.property.addPropertyChangeListener(new Counter());
     }
 
     public boolean add(Movie movie)
@@ -44,7 +43,7 @@ public class Cinematheque {
         var l = stock.list();
         for (var s: l
              ) {
-            b.append(s.toString());
+            b.append(s.toString()).append("\n");
         }
         return b.toString();
     }
@@ -57,7 +56,7 @@ public class Cinematheque {
                 if (o1.getTitle().compareTo(o2.getTitle()) == 0) {
                     if (o1.getTitle().compareTo(o2.getTitle()) == 0)
                     {
-                        if (o1.getRealease().compareTo(o2.getRealease()) == 0)
+                        if (o1.getRelease().compareTo(o2.getRelease()) == 0)
                         {
                             if (o1.getDuration().compareTo(o2.getDuration()) == 0)
                             {
@@ -67,7 +66,7 @@ public class Cinematheque {
                                 return o1.getDuration().compareTo(o2.getDuration());
                         }
                         else
-                            return o1.getRealease().compareTo(o2.getRealease());
+                            return o1.getRelease().compareTo(o2.getRelease());
                     }
                     else
                     {
@@ -82,38 +81,47 @@ public class Cinematheque {
 
     public void banDirectors(String director)
     {
-        stock = stock.filter(
+        var toRemove = stock.filter(
                 m -> m.getDirector().equals(director)
         );
+        for (var e: toRemove.list()
+             ) {
+            stock.remove(e);
+        }
     }
 
     public Period datesAmplitude()
     {
-        Stock<Movie> s = stock.filter( i-> true);
-        s.sort(new Comparator<Movie>() {
-            @Override
-            public int compare(Movie o1, Movie o2) {
-                return o1.getRealease().compareTo(o2.getRealease());
-            }
-        });
-        if (s.list().size() < 2)
+        if (stock.list().size() < 1)
             return null;
-        LocalDate d1 = s.list().stream()
-                .findFirst().get().getRealease();
 
-        LocalDate d2  = s.list().stream().skip(s.list().size() - 1)
-                        .reduce((f, d) -> d).get().getRealease();
+        LocalDate d1 = stock.list().stream().min(
+                new Comparator<Movie>() {
+                    @Override
+                    public int compare(Movie o1, Movie o2) {
+                        return o1.getRelease().compareTo(o2.getRelease());
+                    }
+                }
+        ).get().getRelease();
+
+        LocalDate d2 = stock.list().stream().max(
+                new Comparator<Movie>() {
+                    @Override
+                    public int compare(Movie o1, Movie o2) {
+                        return o1.getRelease().compareTo(o2.getRelease());
+                    }
+                }
+        ).get().getRelease();
         return Period.between(d1, d2);
     }
 
     public Duration averageDuration()
     {
         long[] blk = new long[]{0, 0};
-        stock.list().stream().map(
+        stock.list().forEach(
                 m -> {
                     blk[0] += m.getDuration().getSeconds();
                     blk[1] += 1;
-                    return m;
                 }
         );
         if (blk[1] == 0)

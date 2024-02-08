@@ -1,6 +1,5 @@
 package fr.epita.assistants.cinematheque;
 
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -26,20 +25,21 @@ public class ListStock<T> extends Stock<T>{
         );
         this.items = s;
     }
+
     @Override
     public boolean add(T t) {
         if (this.contains(t))
             throw new IllegalArgumentException();
-        this.property.firePropertyChange("Operation",Operation.Add, Operation.Add);
+        this.property.firePropertyChange("Operation", null, Operation.Add);
         return items.add(t);
     }
 
     @Override
     public boolean remove(T t) {
-        if (items.remove(t))
+        if (!items.remove(t))
             return false;
-        this.property.firePropertyChange("Operation", Operation.Add, Operation.Add);
-        return true;
+        this.property.firePropertyChange("Operation", null, Operation.Delete);
+        return false;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ListStock<T> extends Stock<T>{
             }
         }
         if (changed)
-            this.property.firePropertyChange("Operation", Operation.Sort, Operation.Sort);
+            this.property.firePropertyChange("Operation", null, Operation.Sort);
         return changed;
     }
 
@@ -82,7 +82,7 @@ public class ListStock<T> extends Stock<T>{
                 .filter(p)
                 .collect(Collectors.toList());
         if (this.items.size() != save.size())
-            this.property.firePropertyChange("Operation", Operation.Delete, Operation.Delete);
+            this.property.firePropertyChange("Operation", null, Operation.Delete);
         return this;
     }
 }

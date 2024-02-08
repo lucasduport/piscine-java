@@ -10,20 +10,23 @@ import java.util.Date;
 public class Logger implements PropertyChangeListener {
     private PrintStream output;
 
-    private String get_message(Stock.Operation o ) throws IllegalArgumentException
+    private String get_message(Stock.Operation o )
     {
         if (o ==  Stock.Operation.Add)
             return "An element has been added.";
         else if (o ==  Stock.Operation.Delete)
             return "An element has been removed.";
-        else if (o ==  Stock.Operation.Sort)
-            return "A sorting has occured.";
-
-        throw new IllegalArgumentException();
+        return "A sorting has occured.";
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         LocalDate n = LocalDate.now();
+        if (!(evt.getNewValue().toString().equals(Stock.Operation.Add) ||
+                !evt.getNewValue().toString().equals(Stock.Operation.Delete) ||
+                        !evt.getNewValue().toString().equals(Stock.Operation.Sort)))
+        {
+            throw new IllegalArgumentException();
+        }
         Stock.Operation o = (Stock.Operation) evt.getNewValue();
         String pattern = "dd/MM/yyyy HH:mm:ss";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);

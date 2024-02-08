@@ -54,7 +54,7 @@ public class Cinematheque {
             @Override
             public int compare(Movie o1, Movie o2) {
                 if (o1.getTitle().compareTo(o2.getTitle()) == 0) {
-                    if (o1.getTitle().compareTo(o2.getTitle()) == 0)
+                    if (o1.getDirector().compareTo(o2.getDirector()) == 0)
                     {
                         if (o1.getRelease().compareTo(o2.getRelease()) == 0)
                         {
@@ -70,7 +70,7 @@ public class Cinematheque {
                     }
                     else
                     {
-                        return o1.getTitle().compareTo(o2.getTitle());
+                        return o1.getDirector().compareTo(o2.getDirector());
                     }
                 }
                 else
@@ -79,7 +79,7 @@ public class Cinematheque {
         });
     }
 
-    public void banDirectors(String director)
+    public void banDirector(String director)
     {
         var toRemove = stock.filter(
                 m -> m.getDirector().equals(director)

@@ -28,8 +28,8 @@ public class ListStock<T> extends Stock<T>{
 
     @Override
     public boolean add(T t) {
-        if (this.contains(t))
-            throw new IllegalArgumentException();
+        if (t == null)
+            return false;
         this.property.firePropertyChange("Operation", null, Operation.Add);
         return items.add(t);
     }
@@ -39,7 +39,7 @@ public class ListStock<T> extends Stock<T>{
         if (!items.remove(t))
             return false;
         this.property.firePropertyChange("Operation", null, Operation.Delete);
-        return false;
+        return true;
     }
 
     @Override
@@ -76,13 +76,10 @@ public class ListStock<T> extends Stock<T>{
     public Stock<T> filter(Predicate<? super T> p) {
         if (p == null)
             throw new IllegalArgumentException();
-        List<T> save = items.subList(0, items.size());
-        this.items = items
+        List<T> save = items
                 .stream()
                 .filter(p)
-                .collect(Collectors.toList());
-        if (this.items.size() != save.size())
-            this.property.firePropertyChange("Operation", null, Operation.Delete);
-        return this;
+                .toList();
+        return new ListStock<>(save);
     }
 }

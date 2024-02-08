@@ -28,8 +28,9 @@ public class ListStock<T> extends Stock<T>{
 
     @Override
     public boolean add(T t) {
-        if (t == null || t.getClass() != Movie.class || !items.add(t))
+        if (t == null ||  items.contains(t) )
             return false;
+        items.add(t);
         this.property.firePropertyChange("Operation", null, Operation.Add);
         return true;
     }
@@ -56,9 +57,9 @@ public class ListStock<T> extends Stock<T>{
     public boolean sort(Comparator<? super T> cmp) {
         if (cmp == null)
             return false;
-        List<T> save = items.subList(0, items.size());
+        List<T> save ;
         try {
-            this.items = items
+            save = items
                     .stream()
                     .sorted(
                             cmp
@@ -75,7 +76,10 @@ public class ListStock<T> extends Stock<T>{
             }
         }
         if (changed)
+        {
             this.property.firePropertyChange("Operation", null, Operation.Sort);
+            this.items = save;
+        }
         return changed;
     }
 

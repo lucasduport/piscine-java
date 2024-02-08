@@ -56,7 +56,7 @@ public class Cinematheque {
                 if (o1.getTitle().compareTo(o2.getTitle()) == 0) {
                     if (o1.getDirector().compareTo(o2.getDirector()) == 0)
                     {
-                        if (o1.getRelease().compareTo(o2.getRelease()) == 0)
+                        if (o1.getRelease().isEqual(o2.getRelease()))
                         {
                             if (o1.getDuration().compareTo(o2.getDuration()) == 0)
                             {

@@ -28,10 +28,10 @@ public class ListStock<T> extends Stock<T>{
 
     @Override
     public boolean add(T t) {
-        if (t == null)
+        if (t == null || t.getClass() != Movie.class || !items.add(t))
             return false;
         this.property.firePropertyChange("Operation", null, Operation.Add);
-        return items.add(t);
+        return true;
     }
 
     @Override
@@ -54,12 +54,19 @@ public class ListStock<T> extends Stock<T>{
 
     @Override
     public boolean sort(Comparator<? super T> cmp) {
+        if (cmp == null)
+            return false;
         List<T> save = items.subList(0, items.size());
-        this.items = items
-                .stream()
-                .sorted(
-                        cmp
-        ).toList();
+        try {
+            this.items = items
+                    .stream()
+                    .sorted(
+                            cmp
+                    ).toList();
+        }
+        catch (Exception e) {
+            return false;
+        }
         boolean changed = false;
         for (int i = 0; i < save.size() ; i++) {
             if (!items.get(i).equals(save.get(i))) {

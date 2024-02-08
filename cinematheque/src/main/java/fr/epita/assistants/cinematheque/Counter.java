@@ -8,12 +8,11 @@ public class Counter implements PropertyChangeListener {
     private int count = 0;
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        Stock.Operation o = (Stock.Operation)  evt.getNewValue();
-        if (o ==  Stock.Operation.Add)
+        if (evt.getNewValue() ==  Stock.Operation.Add)
             count++;
-        else if (o ==  Stock.Operation.Delete)
+        else if (evt.getNewValue() ==  Stock.Operation.Delete)
             count--;
-        else if (o !=  Stock.Operation.Sort)
+        else if (evt.getNewValue() !=  Stock.Operation.Sort)
             throw new IllegalArgumentException("Invalid property change name");
     }
 

@@ -20,15 +20,8 @@ public class Logger implements PropertyChangeListener {
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        LocalDate n = LocalDate.now();
-        if (!(evt.getNewValue().toString().equals(Stock.Operation.Add) ||
-                !evt.getNewValue().toString().equals(Stock.Operation.Delete) ||
-                        !evt.getNewValue().toString().equals(Stock.Operation.Sort)))
-        {
-            throw new IllegalArgumentException();
-        }
         Stock.Operation o = (Stock.Operation) evt.getNewValue();
-        String pattern = "dd/MM/yyyy HH:mm:ss";
+        String pattern = "dd/MM/yyyy|HH:mm:ss";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(new Date());
         output.println("[" + date + "] "+ get_message(o));

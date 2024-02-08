@@ -1,2 +1,4 @@
-package fr.epita.assistants.cinematheque;public class Cinematheque {
+package fr.epita.assistants.cinematheque;
+
+public class Cinematheque {
 }

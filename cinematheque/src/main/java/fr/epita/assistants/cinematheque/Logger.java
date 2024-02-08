@@ -1,2 +1,4 @@
-package fr.epita.assistants.cinematheque;public class Logger {
+package fr.epita.assistants.cinematheque;
+
+public class Logger {
 }

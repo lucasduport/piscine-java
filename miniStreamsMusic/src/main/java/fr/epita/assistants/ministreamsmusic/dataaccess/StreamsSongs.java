@@ -21,9 +21,9 @@ public class StreamsSongs {
         return songs.stream()
                 .map (Song::getArtist)
                 .distinct()
-                .filter(
-                        a -> a.getAge() >= 20)
-                .mapToInt(Artist::getAge).sum();
+                .filter(a -> a.getAge() >= 20)
+                .mapToInt(Artist::getAge)
+                .sum();
     }
 
     public static List<String> getMusics(List<Song> songs)

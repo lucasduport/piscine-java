@@ -3,21 +3,18 @@ package fr.epita.assistants.cinematheque;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.PrintStream;
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Objects;
 
 public class Logger implements PropertyChangeListener {
     private PrintStream output;
 
-    private String get_message(String propertyName) throws IllegalArgumentException
+    private String get_message(Stock.Operation o ) throws IllegalArgumentException
     {
-        if (Objects.equals(propertyName, Stock.Operation.Add.toString()))
+        if (o ==  Stock.Operation.Add)
             return "An element has been added.";
-        else if (Objects.equals(propertyName, Stock.Operation.Delete.toString()))
+        else if (o ==  Stock.Operation.Delete)
             return "An element has been removed.";
-        else if (Objects.equals(propertyName, Stock.Operation.Sort.toString()))
+        else if (o ==  Stock.Operation.Sort)
             return "A sorting has occured.";
 
         throw new IllegalArgumentException();
@@ -25,7 +22,8 @@ public class Logger implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         LocalDate n = LocalDate.now();
-        System.out.println("[" + n.toString().replace(" ", "|") + "] "+ get_message(evt.toString()));
+        Stock.Operation o = (Stock.Operation) evt.getNewValue();
+        output.println("[" + n.toString().replace(" ", "|") + "] "+ get_message(o));
     }
 
     public Logger(PrintStream output) {

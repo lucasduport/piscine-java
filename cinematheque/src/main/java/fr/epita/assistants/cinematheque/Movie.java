@@ -28,7 +28,7 @@ public class Movie {
         return director;
     }
 
-    public LocalDate getRealease_date() {
+    public LocalDate getRealease() {
         return realease_date;
     }
 

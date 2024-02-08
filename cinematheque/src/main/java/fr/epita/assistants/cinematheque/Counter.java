@@ -5,22 +5,23 @@ import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
 public class Counter implements PropertyChangeListener {
-    private int counter = 0;
+    private int count = 0;
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (Objects.equals(evt.getPropertyName(), Stock.Operation.Add.toString()))
-            counter++;
-        else if (Objects.equals(evt.getPropertyName(), Stock.Operation.Delete.toString()))
-            counter--;
-        else if (!Objects.equals(evt.getPropertyName(), Stock.Operation.Sort.toString()))
+        Stock.Operation o = (Stock.Operation)  evt.getNewValue();
+        if (o ==  Stock.Operation.Add)
+            count++;
+        else if (o ==  Stock.Operation.Delete)
+            count--;
+        else if (o !=  Stock.Operation.Sort)
             throw new IllegalArgumentException("Invalid property change name");
     }
 
     public Counter() {
-        counter = 0;
+        count = 0;
     }
 
-    public int getCounter() {
-        return counter;
+    public int getCount() {
+        return count;
     }
 }

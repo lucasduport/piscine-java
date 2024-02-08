@@ -6,10 +6,7 @@ import java.io.PrintStream;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 
 public class Cinematheque {
 
@@ -60,7 +57,7 @@ public class Cinematheque {
                 if (o1.getTitle().compareTo(o2.getTitle()) == 0) {
                     if (o1.getTitle().compareTo(o2.getTitle()) == 0)
                     {
-                        if (o1.getRealease_date().compareTo(o2.getRealease_date()) == 0)
+                        if (o1.getRealease().compareTo(o2.getRealease()) == 0)
                         {
                             if (o1.getDuration().compareTo(o2.getDuration()) == 0)
                             {
@@ -70,7 +67,7 @@ public class Cinematheque {
                                 return o1.getDuration().compareTo(o2.getDuration());
                         }
                         else
-                            return o1.getRealease_date().compareTo(o2.getRealease_date());
+                            return o1.getRealease().compareTo(o2.getRealease());
                     }
                     else
                     {
@@ -83,7 +80,7 @@ public class Cinematheque {
         });
     }
 
-    public void banDirector(String director)
+    public void banDirectors(String director)
     {
         stock = stock.filter(
                 m -> m.getDirector().equals(director)
@@ -96,14 +93,16 @@ public class Cinematheque {
         s.sort(new Comparator<Movie>() {
             @Override
             public int compare(Movie o1, Movie o2) {
-                return o1.getRealease_date().compareTo(o2.getRealease_date());
+                return o1.getRealease().compareTo(o2.getRealease());
             }
         });
+        if (s.list().size() < 2)
+            return null;
         LocalDate d1 = s.list().stream()
-                .findFirst().get().getRealease_date();
+                .findFirst().get().getRealease();
 
         LocalDate d2  = s.list().stream().skip(s.list().size() - 1)
-                        .reduce((f, d) -> d).get().getRealease_date();
+                        .reduce((f, d) -> d).get().getRealease();
         return Period.between(d1, d2);
     }
 

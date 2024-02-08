@@ -16,29 +16,29 @@ public class ListStock<T> extends Stock<T>{
     }
     public ListStock(List<T> items)
     {
-        for (int i = 0; i < items.size(); i++) {
-            for (int j = 0; j < items.size(); j++) {
-                if (j != i)
-                {
-                    if (items.get(i).equals(j))
+        List<T> s = new ArrayList<>();
+        items.forEach(
+                i -> {
+                    if (s.contains(i))
                         throw new IllegalArgumentException();
+                    s.add(i);
                 }
-            }
-        }
-        this.items = items;
+        );
+        this.items = s;
     }
     @Override
     public boolean add(T t) {
-        this.property.firePropertyChange(String.valueOf(Operation.Add), this.items, t);
+        if (this.contains(t))
+            throw new IllegalArgumentException();
+        this.property.firePropertyChange("Operation",Operation.Add, Operation.Add);
         return items.add(t);
     }
 
     @Override
     public boolean remove(T t) {
-        List<T> save = items.subList(0, items.size());
         if (items.remove(t))
             return false;
-        this.property.firePropertyChange(String.valueOf(Operation.Delete), save, this.items);
+        this.property.firePropertyChange("Operation", Operation.Add, Operation.Add);
         return true;
     }
 
@@ -68,7 +68,7 @@ public class ListStock<T> extends Stock<T>{
             }
         }
         if (changed)
-            this.property.firePropertyChange(String.valueOf(Operation.Sort), save, this.items);
+            this.property.firePropertyChange("Operation", Operation.Sort, Operation.Sort);
         return changed;
     }
 
@@ -82,11 +82,7 @@ public class ListStock<T> extends Stock<T>{
                 .filter(p)
                 .collect(Collectors.toList());
         if (this.items.size() != save.size())
-            this.property.firePropertyChange(String.valueOf(Operation.Delete), save, this.items);
+            this.property.firePropertyChange("Operation", Operation.Delete, Operation.Delete);
         return this;
-    }
-
-    public void addPropertyChangeListener(Operation op, PropertyChangeListener listener) {
-        this.property.addPropertyChangeListener(String.valueOf(op), listener);
     }
 }

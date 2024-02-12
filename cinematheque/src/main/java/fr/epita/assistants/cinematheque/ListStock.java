@@ -77,7 +77,7 @@ public class ListStock<T> extends Stock<T>{
         }
         if (changed)
         {
-            this.property.firePropertyChange("Operation", null, "heyt");
+            this.property.firePropertyChange("Operation", null, Operation.Sort);
             this.items = save;
         }
         return changed;

@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 public class Cinematheque {
 
-    private Stock<Movie> stock;
+    public Stock<Movie> stock;
     private Logger logger;
 
     public Cinematheque()
@@ -92,8 +92,8 @@ public class Cinematheque {
 
     public Period datesAmplitude()
     {
-        if (stock.list().size() < 1)
-            return null;
+        if (stock.list().size() <= 1)
+            return Period.ZERO;
 
         LocalDate d1 = stock.list().stream().min(
                 new Comparator<Movie>() {

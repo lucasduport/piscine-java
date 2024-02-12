@@ -55,14 +55,9 @@ public class ListStock<T> extends Stock<T>{
 
     @Override
     public boolean sort(Comparator<? super T> cmp) {
-        if (cmp == null)
-            return false;
-        List<T> save ;
+        List<T> save = new ArrayList<>(items);
         try {
-            save = items
-                    .stream()
-                    .sorted(cmp)
-                    .collect(Collectors.toList());
+            save.sort(cmp);
         }
         catch (Exception e) {
             return false;

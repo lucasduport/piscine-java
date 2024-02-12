@@ -16,7 +16,7 @@ public class Logger implements PropertyChangeListener {
             return "An element has been added.";
         else if (o ==  Stock.Operation.Delete)
             return "An element has been removed.";
-        return "A sorting has occured.";
+        return "A sorting has occurred.";
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

@@ -20,7 +20,7 @@ public class Logger implements PropertyChangeListener {
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getNewValue().getClass() != Stock.Operation.class)
+        if (evt.getNewValue() == null || evt.getNewValue().getClass() != Stock.Operation.class)
             throw new IllegalArgumentException();
         Stock.Operation o = (Stock.Operation) evt.getNewValue();
         String pattern = "dd/MM/yyyy|HH:mm:ss";

@@ -61,9 +61,8 @@ public class ListStock<T> extends Stock<T>{
         try {
             save = items
                     .stream()
-                    .sorted(
-                            cmp
-                    ).toList();
+                    .sorted(cmp)
+                    .collect(Collectors.toList());
         }
         catch (Exception e) {
             return false;
@@ -84,7 +83,7 @@ public class ListStock<T> extends Stock<T>{
     }
 
     @Override
-    public Stock<T> filter(Predicate<? super T> p) {
+    public ListStock<T> filter(Predicate<? super T> p) {
         if (p == null)
             throw new IllegalArgumentException();
         List<T> save = items

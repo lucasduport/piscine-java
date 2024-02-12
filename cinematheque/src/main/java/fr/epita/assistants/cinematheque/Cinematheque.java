@@ -93,7 +93,7 @@ public class Cinematheque {
     public Period datesAmplitude()
     {
         if (stock.list().size() <= 1)
-            return Period.ZERO;
+            return null;
 
         LocalDate d1 = stock.list().stream().min(
                 new Comparator<Movie>() {
